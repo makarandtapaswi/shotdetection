@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ffmpegvideosource.hpp"
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/types_c.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -26,11 +27,11 @@ double inline normalize_ts(int64_t ts, int64_t time_base)
     return double(ts) / time_base;
 }
 
-AVStreamConverter::AVStreamConverter(PixelFormat src_format, int width, int height)
+AVStreamConverter::AVStreamConverter(AVPixelFormat src_format, int width, int height)
 {
     int flags = 2; // 2 was taken from an example, apparently the flag is ignored in swscale anyway
     sws_ = sws_getContext(width, height, src_format, width, height,
-                      PIX_FMT_RGB24, flags, NULL, NULL, NULL);
+                      AV_PIX_FMT_RGB24, flags, NULL, NULL, NULL);
 }
 
 AVStreamConverter::~AVStreamConverter()
@@ -112,7 +113,8 @@ FFMPEGVideoSource::FFMPEGVideoSource(const std::string& filename){
     pint->stream = stream;
     pint->format = format;
     pint->stream_index = stream_index;
-    pint->cur_frame = avcodec_alloc_frame();
+    // pint->cur_frame = avcodec_alloc_frame();
+    pint->cur_frame = av_frame_alloc();
     pint->converter = new AVStreamConverter(pint->stream->codec->pix_fmt,
                     pint->stream->codec->width, pint->stream->codec->height);
     pint->img = cv::Mat(cv::Size(codec->width, codec->height), CV_8UC3);
@@ -188,7 +190,7 @@ bool FFMPEGVideoSource::getNextFrame(){
         
         av_free_packet(&pint->avpkt);
     }
-    if (!got_pic and (pint->stream->codec->codec->capabilities & CODEC_CAP_DELAY)){
+    if (!got_pic and (pint->stream->codec->codec->capabilities & AV_CODEC_CAP_DELAY)){
         AVPacket avpkt;
         av_init_packet(&avpkt);
         avpkt.data = 0;

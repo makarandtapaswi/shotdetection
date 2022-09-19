@@ -45,14 +45,13 @@ def process(video_fname, imdb_key):
     print('Completed writing to', matidx_fname)
 
 
-parser = argparse.ArgumentParser(description='Process video file inputs')
-parser.add_argument('--video_fname', type=str, help='Video file path')
-parser.add_argument('--imdb_key', type=str, help='IMDb key')
-parser.add_argument('--base_dir', type=str, help='Base directory')
-
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Process video file inputs')
+    parser.add_argument('--video_fname', type=str, help='Video file path')
+    parser.add_argument('--imdb_key', type=str, help='IMDb key')
+    parser.add_argument('--base_dir', type=str, help='Base directory')
     args = parser.parse_args()
-    print (args)
+    print(args)
     if args.imdb_key is not None:
         assert args.imdb_key.startswith('tt'), 'Invalid IMDb key'
         print ('Running for {}\n{}'.format(args.imdb_key, args.video_fname))
