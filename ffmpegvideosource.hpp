@@ -33,7 +33,7 @@ class AVStreamConverter
 {
     public:
 
-        AVStreamConverter(PixelFormat src_format, int width, int height);
+        AVStreamConverter(AVPixelFormat src_format, int width, int height);
 
         ~AVStreamConverter();
 

@@ -69,12 +69,12 @@ def main(video_name, video_fname):
         fn += 1
 
 
-parser = argparse.ArgumentParser(description='Process video file inputs')
-parser.add_argument('--video_fname', type=str, help='Video file path')
-parser.add_argument('--imdb_key', type=str, help='IMDb key')
-parser.add_argument('--base_dir', type=str, help='Base directory')
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Process video file inputs')
+    parser.add_argument('--video_fname', type=str, help='Video file path')
+    parser.add_argument('--imdb_key', type=str, help='IMDb key')
+    parser.add_argument('--base_dir', type=str, help='Base directory')
     # get arguments
     args = parser.parse_args()
     if args.imdb_key is not None:

@@ -7,9 +7,6 @@ import numpy as np
 import argparse
 import skimage.morphology as morph
 
-
-import pdb
-
 params = {'diffthresh': 7,
           'filter_lengths': 11,
           'proximity': 8}
@@ -91,18 +88,18 @@ def write_video_events(movie_name, events_list):
 
     fid.close()
 
-parser = argparse.ArgumentParser(description='Generate videoevents')
-parser.add_argument('--base_dir', type=str, help='Base directory')
-parser.add_argument('--dfd_path', type=str, help='Path to dfd file')
-parser.add_argument('--imdb_key', type=str, help='IMDb key')
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Generate videoevents')
+    parser.add_argument('--base_dir', type=str, help='Base directory')
+    parser.add_argument('--dfd_path', type=str, help='Path to dfd file')
+    parser.add_argument('--imdb_key', type=str, help='IMDb key')
     
     args = parser.parse_args()
     dfd_fname = args.dfd_path
 
-    assert os.path.exists(dfd_fname), 'DFD file does not exist at ' + dfd_name
+    assert os.path.exists(dfd_fname), 'DFD file does not exist at ' + dfd_fname
 
     with open(dfd_fname, 'r') as fid:
         dfd_info = fid.readlines()
